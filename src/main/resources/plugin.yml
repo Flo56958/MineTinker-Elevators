@@ -1,0 +1,13 @@
+name: MineTinker-Elevators
+version: ${project.version}
+main: de.flo56958.minetinkerelevators.MineTinkerElevators
+api-version: 1.13
+authors: [Flo56958]
+
+permissions:
+  minetinker.elevator.*:
+    children:
+      minetinker.elevator.use: true
+  minetinker.elevator.use:
+    description: Allows to use the Elevator of MineTinker
+    default: true

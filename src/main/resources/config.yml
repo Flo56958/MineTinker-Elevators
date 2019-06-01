@@ -1,0 +1,14 @@
+ItemName: Elevator-Motor
+HasSound: true
+
+BannedWorlds:
+  - bannedExample1
+  - bannedExample2
+
+Recipe:
+  Top: "RRR"
+  Middle: "RHR"
+  Bottom: "RRR"
+  Materials:
+    H: "HOPPER"
+    R: "REDSTONE"
