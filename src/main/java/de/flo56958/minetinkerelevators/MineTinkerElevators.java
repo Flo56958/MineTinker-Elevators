@@ -51,7 +51,7 @@ public final class MineTinkerElevators extends JavaPlugin implements Listener {
         if (h1.getCustomName() == null) return; //name could be NULL
         if (!h1.getCustomName().equals(ChatColor.GRAY + config.getString("ItemName"))) return;
 
-        for (int i = l.getBlockY() - 1; i >= 0; i--) {
+        for (int i = l.getBlockY() - 1; i >= -64; i--) {
             if (p.getWorld().getBlockAt(l.getBlockX(), i, l.getBlockZ()).getState() instanceof Hopper) {
                 Hopper h2 = (Hopper) p.getWorld().getBlockAt(l.getBlockX(), i, l.getBlockZ()).getState();
 
@@ -92,7 +92,7 @@ public final class MineTinkerElevators extends JavaPlugin implements Listener {
         if (h1.getCustomName() == null) return;
 
         if (h1.getCustomName().equals(ChatColor.GRAY + config.getString("ItemName"))) {
-            for (int i = l.getBlockY() + 1; i <= 256; i++) {
+            for (int i = l.getBlockY() + 1; i <= 320; i++) {
                 if (p.getWorld().getBlockAt(l.getBlockX(), i, l.getBlockZ()).getState() instanceof Hopper) {
                     Hopper h2 = (Hopper) p.getWorld().getBlockAt(l.getBlockX(), i, l.getBlockZ()).getState();
 
