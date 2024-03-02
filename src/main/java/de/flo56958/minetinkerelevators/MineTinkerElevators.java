@@ -39,35 +39,31 @@ public final class MineTinkerElevators extends JavaPlugin implements Listener {
         if (!e.isSneaking()) return;
 
         Player p = e.getPlayer();
-
         if (!p.hasPermission("minetinker.elevator.use")) return;
 
         Location l = p.getLocation();
 
         Block b = p.getWorld().getBlockAt(l.add(0, -2, 0));
-        if (!(b.getState() instanceof Hopper)) return;
+        if (!(b.getState() instanceof Hopper h1)) return;
 
-        Hopper h1 = (Hopper) b.getState();
-        if (h1.getCustomName() == null) return; //name could be NULL
+        if (h1.getCustomName() == null) return; // name could be NULL
         if (!h1.getCustomName().equals(ChatColor.GRAY + config.getString("ItemName"))) return;
 
-        for (int i = l.getBlockY() - 1; i >= -64; i--) {
-            if (p.getWorld().getBlockAt(l.getBlockX(), i, l.getBlockZ()).getState() instanceof Hopper) {
-                Hopper h2 = (Hopper) p.getWorld().getBlockAt(l.getBlockX(), i, l.getBlockZ()).getState();
+        int minY = p.getWorld().getMinHeight();
 
-                if (h2.getCustomName() == null) { continue; } //name could be NULL
+        for (int i = l.getBlockY() - 1; i >= minY; i--) {
+            if (!(p.getWorld().getBlockAt(l.getBlockX(), i, l.getBlockZ()).getState() instanceof Hopper h2)) continue;
+            if (h2.getCustomName() == null) continue; // name could be NULL
+            if (!h2.getCustomName().equals(ChatColor.GRAY + config.getString("ItemName"))) continue;
 
-                if (h2.getCustomName().equals(ChatColor.GRAY + config.getString("ItemName"))) {
-                    l.add(0, i - l.getBlockY() + 2, 0);
-                    p.teleport(l);
+            l.add(0, i - l.getBlockY() + 2, 0);
+            p.teleport(l);
 
-                    if (config.getBoolean("HasSound")) {
-                        p.playSound(p.getLocation(), Sound.BLOCK_CHEST_CLOSE, 0.5F, 0.5F);
-                    }
-
-                    break;
-                }
+            if (config.getBoolean("HasSound")) {
+                p.playSound(p.getLocation(), Sound.BLOCK_CHEST_CLOSE, 0.5F, 0.5F);
             }
+
+            break;
         }
     }
 
@@ -77,7 +73,6 @@ public final class MineTinkerElevators extends JavaPlugin implements Listener {
         if (config.getStringList("BannedWorlds").contains(e.getPlayer().getWorld().getName())) return;
 
         Player p = e.getPlayer();
-
         if (!p.hasPermission("minetinker.elevator.use")) return;
         if (e.getTo() == null) return;
 
@@ -86,30 +81,27 @@ public final class MineTinkerElevators extends JavaPlugin implements Listener {
         if (!(e.getTo().getY() > e.getFrom().getY() && e.getTo().getX() == e.getFrom().getX() && e.getTo().getZ() == e.getFrom().getZ())) return;
 
         Block b = p.getWorld().getBlockAt(l.add(0, -2, 0));
-        if (!(b.getState() instanceof Hopper)) return;
+        if (!(b.getState() instanceof Hopper h1)) return;
 
-        Hopper h1 = (Hopper) b.getState();
         if (h1.getCustomName() == null) return;
+        if (!h1.getCustomName().equals(ChatColor.GRAY + config.getString("ItemName"))) return;
 
-        if (h1.getCustomName().equals(ChatColor.GRAY + config.getString("ItemName"))) {
-            for (int i = l.getBlockY() + 1; i <= 320; i++) {
-                if (p.getWorld().getBlockAt(l.getBlockX(), i, l.getBlockZ()).getState() instanceof Hopper) {
-                    Hopper h2 = (Hopper) p.getWorld().getBlockAt(l.getBlockX(), i, l.getBlockZ()).getState();
+        int maxY = p.getWorld().getMaxHeight();
 
-                    if (h2.getCustomName() == null) { continue; }
+        for (int i = l.getBlockY() + 3; i <= maxY; i++) {
+            if (!(p.getWorld().getBlockAt(l.getBlockX(), i, l.getBlockZ()).getState() instanceof Hopper h2)) continue;
 
-                    if (h2.getCustomName().equals(ChatColor.GRAY + config.getString("ItemName"))) {
-                        l.add(0, i - l.getBlockY() + 2, 0);
-                        p.teleport(l);
+            if (h2.getCustomName() == null) continue;
+            if (!h2.getCustomName().equals(ChatColor.GRAY + config.getString("ItemName"))) continue;
 
-                        if (config.getBoolean("HasSound")) {
-                            p.playSound(p.getLocation(), Sound.BLOCK_CHEST_OPEN, 0.5F, 0.5F);
-                        }
+            l.add(0, i - l.getBlockY() + 2, 0);
+            p.teleport(l);
 
-                        break;
-                    }
-                }
+            if (config.getBoolean("HasSound")) {
+                p.playSound(p.getLocation(), Sound.BLOCK_CHEST_OPEN, 0.5F, 0.5F);
             }
+
+            break;
         }
     }
 
